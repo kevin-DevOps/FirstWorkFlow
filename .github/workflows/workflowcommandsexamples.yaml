@@ -1,12 +1,15 @@
 name: Workflow Commands Examples
 on: [push]
 jobs:
-  bash-example:
+  generate-a-secret-output:
     runs-on: ubuntu-latest
-    env:
-      MY_NAME: "Mona The Octocat"
     steps:
-      - name: bash-version
-        run: echo "::add-mask::$MY_NAME"
-      - name: bash-version
-        run: echo "My name is $MY_NAME"
+      - id: sets-a-secret
+        name: Generate, mask, and output a secret
+        run: |
+          the_secret=$((RANDOM))
+          echo "::add-mask::$the_secret"
+          echo "secret-number=$the_secret" >> "$GITHUB_OUTPUT"
+      - name: Use that secret output (protected by a mask)
+        run: |
+          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"
