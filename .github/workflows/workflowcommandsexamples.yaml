@@ -8,3 +8,5 @@ jobs:
     steps:
       - name: bash-version
         run: echo "::add-mask::$MY_NAME"
+      - name: bash-version
+        run: echo "My name is $MY_NAME"
